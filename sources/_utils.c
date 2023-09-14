@@ -6,7 +6,7 @@
 /*   By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:55:32 by tzanchi           #+#    #+#             */
-/*   Updated: 2023/09/13 16:56:15 by tzanchi          ###   ########.fr       */
+/*   Updated: 2023/09/14 16:04:49 by tzanchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,38 @@ int	ft_atoi(const char *nptr)
 		result = result * 10 + *nptr++ - '0';
 	}
 	return (result * sign);
+}
+
+/*ft_isspace returns 1 if character c is a space. Space includes space,
+form-feed\f, new line \n, carriage return \r, horizontal tab \t and  vertical
+tab\v*/
+int	ft_isspace(int c)
+{
+	if (c == ' ' || (c >= 9 && c <= 13))
+		return (1);
+	else
+		return (0);
+}
+
+/*ft_isalnum returns 1 if character c is a digit*/
+int	ft_isdigit(int c)
+{
+	if (c >= '0' && c <= '9')
+		return (1);
+	else
+		return (0);
+}
+
+/*Returns 1 if the string 'str' is a number, 0 if not*/
+int	ft_isnumeric(char *str)
+{
+	if (*str == '+' || *str == '-')
+		str++;
+	while (*str)
+	{
+		if (!ft_isdigit(*str))
+			return (0);
+		str++;
+	}
+	return (1);
 }
