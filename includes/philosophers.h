@@ -6,7 +6,7 @@
 /*   By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:11:52 by tzanchi           #+#    #+#             */
-/*   Updated: 2023/09/14 16:14:58 by tzanchi          ###   ########.fr       */
+/*   Updated: 2023/09/15 17:59:52 by tzanchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,29 @@
 # define PHILOSOPHERS_H
 
 /*libraries*/
+# include <stdlib.h>
 # include <stdio.h>
 # include <limits.h>
 # include <time.h>
 # include <pthread.h>
+# include <string.h>
+# include <sys/time.h>
 
 /*header_files*/
 # include "messages.h"
 
 /*data_model*/
+typedef struct s_philo
+{
+	size_t			id;
+	int				left_fork_id;
+	int				right_fork_id;
+	struct timeval	*last_meal;
+	size_t			number_of_meals;
+	pthread_t		thread;
+	struct s_philo	*next;
+}	t_philo;
+
 typedef struct s_data
 {
 	size_t		number_of_philosophers;
@@ -31,18 +45,8 @@ typedef struct s_data
 	clock_t		time_to_sleep;
 	__ssize_t	nbr_of_meals;
 	int			flag_all_have_eaten;
+	t_philo		*philo;
 }	t_data;
-
-typedef struct s_philosopher
-{
-	size_t		id;
-	int			left_fork_id;
-	int			right_fork_id;
-	clock_t		last_meal;
-	size_t		number_of_meals;
-	pthread_t	thread_id;
-}	t_philosopher;
-
 
 /*_utils.c*/
 int		ft_atoi(const char *nptr);
@@ -50,10 +54,19 @@ int		ft_isspace(int c);
 int		ft_isdigit(int c);
 int		ft_isnumeric(char *str);
 
+/*free.c*/
+void	free_philosopher(t_philo *philosopher);
+void	free_data(t_data *data);
+
 /*init.c*/
-void	init_data(t_data *data, char **argv);
+int		init_data(t_data *data, char **argv);
+int		init_philosophers(t_data *data);
+t_philo	*new_philosopher(size_t philo_id);
 
 /*main.c*/
 int		main(int argc, char **argv);
+
+/*routine.c*/
+void	*routine(void *void_philo);
 
 #endif
