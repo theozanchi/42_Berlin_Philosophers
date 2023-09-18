@@ -6,7 +6,7 @@
 /*   By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:11:52 by tzanchi           #+#    #+#             */
-/*   Updated: 2023/09/15 17:59:52 by tzanchi          ###   ########.fr       */
+/*   Updated: 2023/09/18 12:27:10 by tzanchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,12 @@ int		ft_isnumeric(char *str);
 
 /*free.c*/
 void	free_philosopher(t_philo *philosopher);
-void	free_data(t_data *data);
-
+int		free_data(t_data *data, int exit_code);
 /*init.c*/
-int		init_data(t_data *data, char **argv);
-int		init_philosophers(t_data *data);
 t_philo	*new_philosopher(size_t philo_id);
+int		init_philosophers(t_data *data);
+int		init_data(t_data *data, char **argv);
+int		init_threads(t_data *data);
 
 /*main.c*/
 int		main(int argc, char **argv);

@@ -6,13 +6,65 @@
 /*   By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 15:01:18 by tzanchi           #+#    #+#             */
-/*   Updated: 2023/09/15 17:38:13 by tzanchi          ###   ########.fr       */
+/*   Updated: 2023/09/18 12:36:14 by tzanchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-/*Initializes the data with the arguments of argv:
+/*Allocates memory and initializes a new t_philo object with its forks IDs and
+the current time for its last meal time (corresponding to the beginning of the
+simulation)*/
+t_philo	*new_philosopher(size_t philo_id)
+{
+	t_philo	*new;
+
+	new = malloc(sizeof(t_philo));
+	if (!new)
+	{
+		printf(MALLOC_FAIL);
+		return (NULL);
+	}
+	new->id = philo_id;
+	new->left_fork_id = philo_id;
+	new->right_fork_id = philo_id + 1;
+	new->last_meal = malloc(sizeof(struct timeval));
+	if (!new->last_meal)
+	{
+		printf(MALLOC_FAIL);
+		return (NULL);
+	}
+	gettimeofday(new->last_meal, NULL);
+	new->number_of_meals = 0;
+	return (new);
+}
+
+/*Initializes the list of all philosophers as a circular list. Philosophers 1 
+and data->number_of_philosophers are seated one to each other and share their
+fork (left_fork_id of philosopher 1 is equal to right_for_id of philosopher
+data->number_of_philosophers)
+If the creation of one philosopher fails, function returns EXIT_FAILURE*/
+int	init_philosophers(t_data *data)
+{
+	t_philo	*ptr;
+	size_t	philo_id;
+
+	ptr = data->philo;
+	philo_id = 2;
+	while (philo_id <= data->number_of_philosophers)
+	{
+		ptr->next = new_philosopher(philo_id++);
+		if (!ptr->next)
+			return (EXIT_FAILURE);
+		ptr = ptr->next;
+	}
+	ptr->right_fork_id = 1;
+	ptr->next = data->philo;
+	return (EXIT_SUCCESS);
+}
+
+/*Initializes the data with the arguments of argv and the first philosophers
+then calls init_philosophers to initializes all philosophers
 • data->number_of_philosophers: the number of philosophers and forks
 • data->time_to_die: if a philosopher does not eat time_to_die ms since the
 beginning of their last meal or the beginning of the simulation, they die.
@@ -36,53 +88,28 @@ int	init_data(t_data *data, char **argv)
 	data->philo = new_philosopher(1);
 	if (!data->philo)
 		return (1);
-	return (0);
+	if (init_philosophers(data))
+		return (free_data(data, EXIT_FAILURE));
+	return (EXIT_SUCCESS);
 }
 
-t_philo	*new_philosopher(size_t philo_id)
+/*Loops through all the philosophers to create a thread for each of them. If
+one thread fails, function returns EXIT_FAILURE*/
+int	init_threads(t_data *data)
 {
-	t_philo	*new;
-
-	new = malloc(sizeof(t_philo));
-	if (!new)
-	{
-		printf(MALLOC_FAIL);
-		return (NULL);
-	}
-	new->id = philo_id;
-	new->left_fork_id = philo_id;
-	new->right_fork_id = philo_id + 1;
-	new->last_meal = malloc(sizeof(struct timeval));
-	if (!new->last_meal)
-	{
-		printf(MALLOC_FAIL);
-		return (NULL);
-	}
-	gettimeofday(new->last_meal, NULL);
-	// if (pthread_create(&new->thread, NULL, routine, NULL) != 0)
-	// {
-	// 	printf(THREAD_CREATE_FAIL);
-	// 	return (NULL);
-	// }
-	new->number_of_meals = 0;
-	return (new);
-}
-
-int	init_philosophers(t_data *data)
-{
+	size_t	i;
 	t_philo	*ptr;
-	size_t	philo_id;
 
+	i = data->number_of_philosophers;
 	ptr = data->philo;
-	philo_id = 2;
-	while (philo_id <= data->number_of_philosophers)
+	while (i--)
 	{
-		ptr->next = new_philosopher(philo_id++);
-		if (!ptr->next)
-			return (1);
+		if (pthread_create(&ptr->thread, NULL, routine, (void *)ptr) != 0)
+		{
+			printf(THREAD_CREATE_FAIL);
+			return (EXIT_FAILURE);
+		}
 		ptr = ptr->next;
 	}
-	ptr->right_fork_id = 1;
-	ptr->next = data->philo;
-	return (0);
+	return (EXIT_SUCCESS);
 }

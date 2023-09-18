@@ -6,7 +6,7 @@
 /*   By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:13:16 by tzanchi           #+#    #+#             */
-/*   Updated: 2023/09/15 18:00:43 by tzanchi          ###   ########.fr       */
+/*   Updated: 2023/09/18 12:34:00 by tzanchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ int	main(int argc, char **argv)
 	t_data	data;
 
 	if (check_arguments(argc, argv))
-		return (1);
-	init_data(&data, argv);
-	init_philosophers(&data);
-	free_data(&data);
+		return (EXIT_FAILURE);
+	if (init_data(&data, argv))
+		return (free_data(&data, EXIT_FAILURE));
+	return (free_data(&data, EXIT_SUCCESS));
 }

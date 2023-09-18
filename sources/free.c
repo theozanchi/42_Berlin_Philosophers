@@ -6,7 +6,7 @@
 /*   By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 17:45:38 by tzanchi           #+#    #+#             */
-/*   Updated: 2023/09/15 18:03:40 by tzanchi          ###   ########.fr       */
+/*   Updated: 2023/09/18 12:26:51 by tzanchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	free_philosopher(t_philo *philosopher)
 
 /*Loops through all philosophers contained in data->philo and frees allocated
 memory*/
-void	free_data(t_data *data)
+int	free_data(t_data *data, int exit_code)
 {
 	t_philo	*first;
 	t_philo	*current;
@@ -45,4 +45,5 @@ void	free_data(t_data *data)
 	}
 	if (current)
 		free_philosopher(current);
+	return (exit_code);
 }
