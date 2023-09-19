@@ -6,7 +6,7 @@
 /*   By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 15:01:18 by tzanchi           #+#    #+#             */
-/*   Updated: 2023/09/18 12:36:14 by tzanchi          ###   ########.fr       */
+/*   Updated: 2023/09/19 16:38:41 by tzanchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*Allocates memory and initializes a new t_philo object with its forks IDs and
 the current time for its last meal time (corresponding to the beginning of the
 simulation)*/
-t_philo	*new_philosopher(size_t philo_id)
+t_philo	*new_philosopher(size_t philo_id, t_data *data)
 {
 	t_philo	*new;
 
@@ -35,7 +35,9 @@ t_philo	*new_philosopher(size_t philo_id)
 		return (NULL);
 	}
 	gettimeofday(new->last_meal, NULL);
-	new->number_of_meals = 0;
+	new->nbr_of_meals = 0;
+	new->philo_is_full = 0;
+	new->data = data;
 	return (new);
 }
 
@@ -51,15 +53,40 @@ int	init_philosophers(t_data *data)
 
 	ptr = data->philo;
 	philo_id = 2;
-	while (philo_id <= data->number_of_philosophers)
+	while (philo_id <= data->nbr_of_philo)
 	{
-		ptr->next = new_philosopher(philo_id++);
+		ptr->next = new_philosopher(philo_id++, data);
 		if (!ptr->next)
 			return (EXIT_FAILURE);
 		ptr = ptr->next;
 	}
 	ptr->right_fork_id = 1;
 	ptr->next = data->philo;
+	return (EXIT_SUCCESS);
+}
+
+/*Initializes of mutex for each fork. Returns EXIT_FAILURE in case the memory
+allocation or the mutex creation fails for any of the forks*/
+int	init_forks(t_data *data)
+{
+	size_t	i;
+
+	data->forks = malloc(data->nbr_of_philo * sizeof(pthread_mutex_t));
+	if (!data->forks)
+	{
+		printf(MALLOC_FAIL);
+		return (EXIT_FAILURE);
+	}
+	i = 0;
+	while (i < data->nbr_of_philo)
+	{
+		if (pthread_mutex_init(&data->forks[i], NULL))
+		{
+			printf(MUTEX_FAIL);
+			return (EXIT_FAILURE);
+		}
+		i++;
+	}
 	return (EXIT_SUCCESS);
 }
 
@@ -76,7 +103,7 @@ simulation ends
 nbr_of_meals meals*/
 int	init_data(t_data *data, char **argv)
 {
-	data->number_of_philosophers = ft_atoi(argv[1]);
+	data->nbr_of_philo = ft_atoi(argv[1]);
 	data->time_to_die = ft_atoi(argv[2]);
 	data->time_to_eat = ft_atoi(argv[3]);
 	data->time_to_sleep = ft_atoi(argv[4]);
@@ -84,29 +111,34 @@ int	init_data(t_data *data, char **argv)
 		data->nbr_of_meals = ft_atoi(argv[5]);
 	else
 		data->nbr_of_meals = -1;
-	data->flag_all_have_eaten = 0;
-	data->philo = new_philosopher(1);
+	data->nbr_of_full_philo = 0;
+	data->philo = new_philosopher(1, data);
 	if (!data->philo)
-		return (1);
+		return (EXIT_FAILURE);
 	if (init_philosophers(data))
+		return (free_data(data, EXIT_FAILURE));
+	if (init_forks(data))
+		return (free_data(data, EXIT_FAILURE));
+	data->current_time = malloc(sizeof(struct timeval));
+	if (!data->current_time)
 		return (free_data(data, EXIT_FAILURE));
 	return (EXIT_SUCCESS);
 }
 
 /*Loops through all the philosophers to create a thread for each of them. If
 one thread fails, function returns EXIT_FAILURE*/
-int	init_threads(t_data *data)
+int	launch_threads(t_data *data)
 {
 	size_t	i;
 	t_philo	*ptr;
 
-	i = data->number_of_philosophers;
+	i = data->nbr_of_philo;
 	ptr = data->philo;
 	while (i--)
 	{
 		if (pthread_create(&ptr->thread, NULL, routine, (void *)ptr) != 0)
 		{
-			printf(THREAD_CREATE_FAIL);
+			printf(THREAD_FAIL);
 			return (EXIT_FAILURE);
 		}
 		ptr = ptr->next;

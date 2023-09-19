@@ -6,7 +6,7 @@
 /*   By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:55:32 by tzanchi           #+#    #+#             */
-/*   Updated: 2023/09/14 16:04:49 by tzanchi          ###   ########.fr       */
+/*   Updated: 2023/09/19 16:22:40 by tzanchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,4 +76,11 @@ int	ft_isnumeric(char *str)
 		str++;
 	}
 	return (1);
+}
+
+/*Displays the log passed as a string pointer for the philosopher 'philo'*/
+void	display_log(char *log, t_philo *philo)
+{
+	gettimeofday(philo->data->current_time, NULL);
+	printf(log, philo->data->current_time->tv_usec, philo->id);
 }
