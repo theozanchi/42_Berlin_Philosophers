@@ -6,7 +6,7 @@
 /*   By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:11:52 by tzanchi           #+#    #+#             */
-/*   Updated: 2023/09/19 16:38:58 by tzanchi          ###   ########.fr       */
+/*   Updated: 2023/09/19 16:51:54 by tzanchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct s_data
 	clock_t			time_to_sleep;
 	__ssize_t		nbr_of_meals;
 	size_t			nbr_of_full_philo;
+	pthread_mutex_t	nbr_of_full_philo_mutex;
 	t_philo			*philo;
 	pthread_mutex_t	*forks;
 	struct timeval	*current_time;

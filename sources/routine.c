@@ -6,7 +6,7 @@
 /*   By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 12:38:49 by tzanchi           #+#    #+#             */
-/*   Updated: 2023/09/19 16:36:25 by tzanchi          ###   ########.fr       */
+/*   Updated: 2023/09/19 16:55:22 by tzanchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,10 @@ void	is_eating(t_philo	*philo)
 	if (philo->data->nbr_of_meals > 0
 		&& (__ssize_t)philo->nbr_of_meals == philo->data->nbr_of_meals)
 	{
+		pthread_mutex_lock(&philo->data->nbr_of_full_philo_mutex);
 		philo->philo_is_full = 1;
 		philo->data->nbr_of_full_philo++;
+		pthread_mutex_unlock(&philo->data->nbr_of_full_philo_mutex);
 	}
 }
 

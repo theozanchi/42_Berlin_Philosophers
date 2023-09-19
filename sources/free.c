@@ -6,7 +6,7 @@
 /*   By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 17:45:38 by tzanchi           #+#    #+#             */
-/*   Updated: 2023/09/19 15:31:50 by tzanchi          ###   ########.fr       */
+/*   Updated: 2023/09/19 16:55:52 by tzanchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int	free_data(t_data *data, int exit_code)
 	t_philo	*next;
 
 	destroy_forks(data);
+	pthread_mutex_destroy(&data->nbr_of_full_philo_mutex);
 	free_timestamp(data);
 	current = data->philo;
 	if (!current)

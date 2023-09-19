@@ -6,7 +6,7 @@
 /*   By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 15:01:18 by tzanchi           #+#    #+#             */
-/*   Updated: 2023/09/19 16:38:41 by tzanchi          ###   ########.fr       */
+/*   Updated: 2023/09/19 16:54:27 by tzanchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,8 @@ int	init_data(t_data *data, char **argv)
 	if (init_philosophers(data))
 		return (free_data(data, EXIT_FAILURE));
 	if (init_forks(data))
+		return (free_data(data, EXIT_FAILURE));
+	if (pthread_mutex_init(&data->nbr_of_full_philo_mutex, NULL))
 		return (free_data(data, EXIT_FAILURE));
 	data->current_time = malloc(sizeof(struct timeval));
 	if (!data->current_time)
