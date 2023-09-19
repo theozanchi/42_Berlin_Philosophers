@@ -6,7 +6,7 @@
 /*   By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 12:38:49 by tzanchi           #+#    #+#             */
-/*   Updated: 2023/09/19 16:55:22 by tzanchi          ###   ########.fr       */
+/*   Updated: 2023/09/19 19:36:57 by tzanchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,10 @@ int	philo_is_dead(t_philo *philo)
 	clock_t	time_since_last_meal;
 
 	gettimeofday(philo->data->current_time, NULL);
-	time_since_last_meal = philo->data->current_time->tv_usec
-		- philo->last_meal->tv_usec;
+	time_since_last_meal = (philo->data->current_time->tv_sec
+			- philo->last_meal->tv_sec) * 1000
+		+ (philo->data->current_time->tv_usec - philo->last_meal->tv_usec)
+		/ 1000;
 	if (time_since_last_meal > philo->data->time_to_die)
 	{
 		display_log(DEATH_LOG, philo);
@@ -68,13 +70,13 @@ void	*routine(void *void_philo)
 	philo = (t_philo *)void_philo;
 	while (1)
 	{
-		is_eating(philo);
-		is_sleeping(philo);
-		is_thinking(philo);
 		if (philo_is_dead(philo)
 			|| (philo->data->nbr_of_meals > 0
 				&& philo->data->nbr_of_full_philo == philo->data->nbr_of_philo))
 			break ;
+		is_eating(philo);
+		is_sleeping(philo);
+		is_thinking(philo);
 	}
 	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 17:45:38 by tzanchi           #+#    #+#             */
-/*   Updated: 2023/09/19 16:55:52 by tzanchi          ###   ########.fr       */
+/*   Updated: 2023/09/19 19:30:40 by tzanchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,27 @@ void	destroy_forks(t_data *data)
 	while (i < data->nbr_of_philo)
 		pthread_mutex_destroy(&data->forks[i++]);
 	free(data->forks);
+}
+
+/*Loops through all the philosophers to join the thread created for each of
+them. If one joint fails, function returns EXIT_FAILURE*/
+int	join_threads(t_data *data)
+{
+	t_philo	*ptr;
+	size_t	i;
+
+	i = data->nbr_of_philo;
+	ptr = data->philo;
+	while (i--)
+	{
+		if (pthread_join(ptr->thread, NULL) != 0)
+		{
+			printf(THREAD_JOIN_FAIL, ptr->id);
+			return (EXIT_FAILURE);
+		}
+		ptr = ptr->next;
+	}
+	return (EXIT_SUCCESS);
 }
 
 /*Frees all memory allocated for one philosopher*/

@@ -6,7 +6,7 @@
 /*   By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 15:01:18 by tzanchi           #+#    #+#             */
-/*   Updated: 2023/09/19 16:54:27 by tzanchi          ###   ########.fr       */
+/*   Updated: 2023/09/19 19:29:07 by tzanchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,7 @@ int	launch_threads(t_data *data)
 	{
 		if (pthread_create(&ptr->thread, NULL, routine, (void *)ptr) != 0)
 		{
-			printf(THREAD_FAIL);
+			printf(THREAD_CREATION_FAIL, ptr->id);
 			return (EXIT_FAILURE);
 		}
 		ptr = ptr->next;
