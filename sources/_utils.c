@@ -6,7 +6,7 @@
 /*   By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:55:32 by tzanchi           #+#    #+#             */
-/*   Updated: 2023/09/20 15:54:01 by tzanchi          ###   ########.fr       */
+/*   Updated: 2023/09/20 18:04:57 by tzanchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,15 +78,31 @@ int	ft_isnumeric(char *str)
 	return (1);
 }
 
+int	ft_strcmp(const char *s1, const char *s2)
+{
+	while (*s1 && *s1 == *s2)
+	{
+		s1++;
+		s2++;
+	}
+	return (*s1 - *s2);
+}
+
 /*Displays the log passed as a string pointer for the philosopher 'philo'*/
-void	display_log(char *log, t_philo *philo)
+int	display_log(char *log, t_philo *philo)
 {
 	clock_t	time;
 
+	pthread_mutex_lock(&philo->data->display_mutex);
 	gettimeofday(philo->data->current_time, NULL);
 	time = (philo->data->current_time->tv_sec
 			- philo->data->start_time->tv_sec) * 1000
 		+ (philo->data->current_time->tv_usec
 			- philo->data->start_time->tv_usec) / 1000;
-	printf(log, time, philo->id);
+	if (ft_strcmp(log, ALL_FULL_LOG) == 0)
+		printf(log, time, philo->data->nbr_of_meals);
+	else
+		printf(log, time, philo->id);
+	pthread_mutex_unlock(&philo->data->display_mutex);
+	return (1);
 }

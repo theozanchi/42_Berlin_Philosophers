@@ -6,7 +6,7 @@
 /*   By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:11:52 by tzanchi           #+#    #+#             */
-/*   Updated: 2023/09/20 15:42:05 by tzanchi          ###   ########.fr       */
+/*   Updated: 2023/09/20 18:05:06 by tzanchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ typedef struct s_data
 	clock_t			time_to_die;
 	clock_t			time_to_eat;
 	clock_t			time_to_sleep;
-	__ssize_t		nbr_of_meals;
+	size_t			nbr_of_meals;
 	size_t			nbr_of_full_philo;
 	pthread_mutex_t	nbr_of_full_philo_mutex;
 	t_philo			*philo;
@@ -63,7 +63,7 @@ int		ft_atoi(const char *nptr);
 int		ft_isspace(int c);
 int		ft_isdigit(int c);
 int		ft_isnumeric(char *str);
-void	display_log(char *log, t_philo *philo);
+int		display_log(char *log, t_philo *philo);
 
 /*death_checker.c*/
 int		philo_is_dead(t_philo *philo);

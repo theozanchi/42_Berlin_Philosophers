@@ -6,7 +6,7 @@
 /*   By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 12:13:56 by tzanchi           #+#    #+#             */
-/*   Updated: 2023/09/20 15:33:08 by tzanchi          ###   ########.fr       */
+/*   Updated: 2023/09/20 18:05:18 by tzanchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,18 @@ void	*monitor_routine(void *void_data)
 	philo = data->philo;
 	while (1)
 	{
+		if (data->nbr_of_meals && data->nbr_of_full_philo == data->nbr_of_philo)
+		{
+			// display_log(ALL_FULL_LOG, philo);
+			exit(display_log(ALL_FULL_LOG, philo));
+		}
 		if (philo_is_dead(philo))
 		{
-			display_log(DEATH_LOG, philo);
-			exit(free_data(data, EXIT_SUCCESS));
+			// display_log(DEATH_LOG, philo);
+			exit(display_log(DEATH_LOG, philo));
 		}
 		philo = philo->next;
-		usleep(50);
+		usleep(100);
 	}
 	return (NULL);
 }

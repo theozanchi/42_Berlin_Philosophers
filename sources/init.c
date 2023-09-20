@@ -6,7 +6,7 @@
 /*   By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 15:01:18 by tzanchi           #+#    #+#             */
-/*   Updated: 2023/09/20 14:57:09 by tzanchi          ###   ########.fr       */
+/*   Updated: 2023/09/20 16:31:49 by tzanchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int	init_data(t_data *data, char **argv)
 	if (argv[5])
 		data->nbr_of_meals = ft_atoi(argv[5]);
 	else
-		data->nbr_of_meals = -1;
+		data->nbr_of_meals = 0;
 	data->nbr_of_full_philo = 0;
 	data->philo = new_philosopher(1, data);
 	if (!data->philo)
@@ -120,6 +120,8 @@ int	init_data(t_data *data, char **argv)
 	if (init_forks(data))
 		return (free_data(data, EXIT_FAILURE));
 	if (pthread_mutex_init(&data->nbr_of_full_philo_mutex, NULL))
+		return (free_data(data, EXIT_FAILURE));
+	if (pthread_mutex_init(&data->display_mutex, NULL))
 		return (free_data(data, EXIT_FAILURE));
 	data->current_time = malloc(sizeof(struct timeval));
 	if (!data->current_time)
