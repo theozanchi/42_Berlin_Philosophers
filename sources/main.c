@@ -6,7 +6,7 @@
 /*   By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:13:16 by tzanchi           #+#    #+#             */
-/*   Updated: 2023/09/19 19:31:36 by tzanchi          ###   ########.fr       */
+/*   Updated: 2023/09/20 15:36:41 by tzanchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,20 @@ int	main(int argc, char **argv)
 {
 	t_data	data;
 
+	data.start_time = malloc(sizeof(struct timeval));
+	if (!data.start_time)
+	{
+		printf(MALLOC_FAIL);
+		return (EXIT_FAILURE);
+	}
+	gettimeofday(data.start_time, NULL);
 	if (check_arguments(argc, argv))
 		return (EXIT_FAILURE);
 	if (init_data(&data, argv))
 		return (free_data(&data, EXIT_FAILURE));
 	if (launch_threads(&data))
 		return (free_data(&data, EXIT_FAILURE));
+	pthread_create(&data.monitor_routine, NULL, monitor_routine, (void *)&data);
 	if (join_threads(&data))
 		return (free_data(&data, EXIT_FAILURE));
 	return (free_data(&data, EXIT_SUCCESS));

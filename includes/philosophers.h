@@ -6,7 +6,7 @@
 /*   By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:11:52 by tzanchi           #+#    #+#             */
-/*   Updated: 2023/09/19 19:30:12 by tzanchi          ###   ########.fr       */
+/*   Updated: 2023/09/20 15:42:05 by tzanchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ typedef struct s_philo
 	struct timeval	*last_meal;
 	size_t			nbr_of_meals;
 	int				philo_is_full;
-	pthread_t		thread;
+	pthread_t		routine;
 	struct s_data	*data;
 	struct s_philo	*next;
 }	t_philo;
@@ -52,7 +52,10 @@ typedef struct s_data
 	pthread_mutex_t	nbr_of_full_philo_mutex;
 	t_philo			*philo;
 	pthread_mutex_t	*forks;
+	pthread_mutex_t	display_mutex;
 	struct timeval	*current_time;
+	struct timeval	*start_time;
+	pthread_t		monitor_routine;
 }	t_data;
 
 /*_utils.c*/
@@ -61,6 +64,10 @@ int		ft_isspace(int c);
 int		ft_isdigit(int c);
 int		ft_isnumeric(char *str);
 void	display_log(char *log, t_philo *philo);
+
+/*death_checker.c*/
+int		philo_is_dead(t_philo *philo);
+void	*monitor_routine(void *void_philo);
 
 /*free.c*/
 void	destroy_forks(t_data *data);
@@ -82,7 +89,6 @@ int		main(int argc, char **argv);
 void	is_eating(t_philo	*philo);
 void	is_sleeping(t_philo *philo);
 void	is_thinking(t_philo *philo);
-int		philo_is_dead(t_philo *philo);
 void	*routine(void *void_philo);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:55:32 by tzanchi           #+#    #+#             */
-/*   Updated: 2023/09/19 19:46:07 by tzanchi          ###   ########.fr       */
+/*   Updated: 2023/09/20 15:54:01 by tzanchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,14 +81,12 @@ int	ft_isnumeric(char *str)
 /*Displays the log passed as a string pointer for the philosopher 'philo'*/
 void	display_log(char *log, t_philo *philo)
 {
-	unsigned long	total_milliseconds;
-	unsigned long	seconds;
-	unsigned long	milliseconds;
+	clock_t	time;
 
 	gettimeofday(philo->data->current_time, NULL);
-	total_milliseconds = philo->data->current_time->tv_sec * 1000
-		+ philo->data->current_time->tv_usec / 1000;
-	seconds = total_milliseconds / 1000;
-	milliseconds = total_milliseconds % 1000;
-	printf(log, seconds, milliseconds, philo->id);
+	time = (philo->data->current_time->tv_sec
+			- philo->data->start_time->tv_sec) * 1000
+		+ (philo->data->current_time->tv_usec
+			- philo->data->start_time->tv_usec) / 1000;
+	printf(log, time, philo->id);
 }

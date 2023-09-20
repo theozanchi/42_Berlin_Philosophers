@@ -6,7 +6,7 @@
 /*   By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 17:45:38 by tzanchi           #+#    #+#             */
-/*   Updated: 2023/09/19 19:30:40 by tzanchi          ###   ########.fr       */
+/*   Updated: 2023/09/20 14:57:34 by tzanchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	join_threads(t_data *data)
 	ptr = data->philo;
 	while (i--)
 	{
-		if (pthread_join(ptr->thread, NULL) != 0)
+		if (pthread_join(ptr->routine, NULL) != 0)
 		{
 			printf(THREAD_JOIN_FAIL, ptr->id);
 			return (EXIT_FAILURE);

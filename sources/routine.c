@@ -6,20 +6,26 @@
 /*   By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 12:38:49 by tzanchi           #+#    #+#             */
-/*   Updated: 2023/09/19 19:36:57 by tzanchi          ###   ########.fr       */
+/*   Updated: 2023/09/20 16:04:50 by tzanchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
+void	takes_forks(t_philo *philo, int first_fork, int second_fork)
+{
+	pthread_mutex_lock(&philo->data->forks[first_fork - 1]);
+	display_log(FORK_LOG, philo);
+	pthread_mutex_lock(&philo->data->forks[second_fork - 1]);
+	display_log(FORK_LOG, philo);
+}
+
 void	is_eating(t_philo	*philo)
 {
-	if (philo->philo_is_full)
-		return ;
-	pthread_mutex_lock(&philo->data->forks[philo->left_fork_id - 1]);
-	display_log(FORK_LOG, philo);
-	pthread_mutex_lock(&philo->data->forks[philo->right_fork_id - 1]);
-	display_log(FORK_LOG, philo);
+	if (philo->id % 2 == 0)
+		takes_forks(philo, philo->left_fork_id, philo->right_fork_id);
+	else
+		takes_forks(philo, philo->right_fork_id, philo->left_fork_id);
 	display_log(EAT_LOG, philo);
 	usleep(philo->data->time_to_eat);
 	pthread_mutex_unlock(&philo->data->forks[philo->left_fork_id - 1]);
@@ -46,23 +52,6 @@ void	is_thinking(t_philo *philo)
 	display_log(THINK_LOG, philo);
 }
 
-int	philo_is_dead(t_philo *philo)
-{
-	clock_t	time_since_last_meal;
-
-	gettimeofday(philo->data->current_time, NULL);
-	time_since_last_meal = (philo->data->current_time->tv_sec
-			- philo->last_meal->tv_sec) * 1000
-		+ (philo->data->current_time->tv_usec - philo->last_meal->tv_usec)
-		/ 1000;
-	if (time_since_last_meal > philo->data->time_to_die)
-	{
-		display_log(DEATH_LOG, philo);
-		return (1);
-	}
-	return (0);
-}
-
 void	*routine(void *void_philo)
 {
 	t_philo			*philo;
@@ -70,9 +59,8 @@ void	*routine(void *void_philo)
 	philo = (t_philo *)void_philo;
 	while (1)
 	{
-		if (philo_is_dead(philo)
-			|| (philo->data->nbr_of_meals > 0
-				&& philo->data->nbr_of_full_philo == philo->data->nbr_of_philo))
+		if (philo->data->nbr_of_meals > 0
+			&& philo->data->nbr_of_full_philo == philo->data->nbr_of_philo)
 			break ;
 		is_eating(philo);
 		is_sleeping(philo);

@@ -6,7 +6,7 @@
 /*   By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:13:50 by tzanchi           #+#    #+#             */
-/*   Updated: 2023/09/19 19:45:48 by tzanchi          ###   ########.fr       */
+/*   Updated: 2023/09/20 15:57:23 by tzanchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ number_of_times_each_philosopher_must_eat (optional)\n"
 # define MUTEX_FAIL "Mutex creation failure\n"
 
 /*logs*/
-# define FORK_LOG "[%lu.%03lu] Philo %d has taken a fork\n"
-# define EAT_LOG "[%lu.%03lu] Philo %d is eating\n"
-# define SLEEP_LOG "[%lu.%03lu] Philo %d is sleeping\n"
-# define THINK_LOG "[%lu.%03lu] Philo %d is thinking\n"
-# define DEATH_LOG "[%lu.%03lu] \033[1;31mPhilo %d died\033[0m\n"
+# define FORK_LOG "\033[1:37m%03lu\033[0m %d has taken a fork\n"
+# define EAT_LOG "\033[1:37m%03lu\033[0m %d is eating\n"
+# define SLEEP_LOG "\033[1:37m%03lu\033[0m %d is sleeping\n"
+# define THINK_LOG "\033[1:37m%03lu\033[0m %d is thinking\n"
+# define DEATH_LOG "\033[1:37m%03lu\033[0m \033[1;31m%d died\033[0m\n"
 
 #endif
