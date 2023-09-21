@@ -6,7 +6,7 @@
 /*   By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:55:32 by tzanchi           #+#    #+#             */
-/*   Updated: 2023/09/21 11:12:14 by tzanchi          ###   ########.fr       */
+/*   Updated: 2023/09/21 12:55:47 by tzanchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,11 @@ int	ft_isnumeric(char *str)
 	return (1);
 }
 
+/*ft_strcmp function compares the two strings 's1' and 's2' and returns an
+integer indicating the result of the comparison, as follows:
+	• 0, if the s1 and s2 are equal;
+	• a negative value if s1 is less than s2;
+	• a positive value if s1 is greater than s2.*/
 int	ft_strcmp(const char *s1, const char *s2)
 {
 	while (*s1 && *s1 == *s2)

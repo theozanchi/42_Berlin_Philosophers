@@ -6,7 +6,7 @@
 /*   By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 17:45:38 by tzanchi           #+#    #+#             */
-/*   Updated: 2023/09/21 12:04:31 by tzanchi          ###   ########.fr       */
+/*   Updated: 2023/09/21 18:22:54 by tzanchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,17 +52,20 @@ void	free_philosopher(t_philo *philosopher)
 		return ;
 	if (philosopher->last_meal)
 		free(philosopher->last_meal);
+	pthread_mutex_destroy(&philosopher->last_meal_mutex);
 	free(philosopher);
 	philosopher = NULL;
 }
 
 /*Frees the current_time structure inside t_data *data*/
-void	free_timestamp(t_data *data)
+void	free_timestamps(t_data *data)
 {
-	if (!data->current_time)
-		return ;
-	free(data->current_time);
+	if (data->current_time)
+		free(data->current_time);
 	data->current_time = NULL;
+	if (data->start_time)
+		free(data->start_time);
+	data->start_time = NULL;
 }
 
 /*Loops through all philosophers contained in data->philo and frees allocated
@@ -76,7 +79,7 @@ int	free_data(t_data *data, int exit_code)
 	destroy_forks(data);
 	pthread_mutex_destroy(&data->nbr_of_full_philo_mutex);
 	pthread_mutex_destroy(&data->display_mutex);
-	free_timestamp(data);
+	free_timestamps(data);
 	current = data->philo;
 	if (!current)
 		return (exit_code);

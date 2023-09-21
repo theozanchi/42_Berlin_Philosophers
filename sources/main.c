@@ -6,7 +6,7 @@
 /*   By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:13:16 by tzanchi           #+#    #+#             */
-/*   Updated: 2023/09/21 12:27:20 by tzanchi          ###   ########.fr       */
+/*   Updated: 2023/09/21 20:12:50 by tzanchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,18 @@ int	display_log(char *log, t_philo *philo)
 		printf(log, time, philo->data->nbr_of_meals);
 	else
 		printf(log, time, philo->id);
-	pthread_mutex_unlock(&philo->data->display_mutex);
+	if (ft_strcmp(log, ALL_FULL_LOG) && ft_strcmp(log, DEATH_LOG))
+		pthread_mutex_unlock(&philo->data->display_mutex);
 	return (1);
 }
 
+/*• Initializes 'start_time' with the time when the process started
+• Checks that arguments are valid
+• Loads the arguments contained in argv in the structure s_data
+• Launches one thread per philosopher for their eat-sleep-think routine
+• Launches a monitor routine to check if the simulation should stop (by the
+death of a philosopher or because they are all full)
+• Properly frees the resources and returns EXIT_SUCCESS*/
 int	main(int argc, char **argv)
 {
 	t_data	data;
@@ -67,7 +75,7 @@ int	main(int argc, char **argv)
 		return (free_data(&data, EXIT_FAILURE));
 	if (launch_threads(&data))
 		return (free_data(&data, EXIT_FAILURE));
-	pthread_create(&data.monitor_routine, NULL, monitor_routine, (void *)&data);
-	pthread_join(data.monitor_routine, NULL);
+	monitor_routine(&data);
+	pthread_mutex_unlock(&data.display_mutex);
 	return (free_data(&data, EXIT_SUCCESS));
 }

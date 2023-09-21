@@ -6,7 +6,7 @@
 /*   By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 15:01:18 by tzanchi           #+#    #+#             */
-/*   Updated: 2023/09/20 16:31:49 by tzanchi          ###   ########.fr       */
+/*   Updated: 2023/09/21 18:18:28 by tzanchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,11 @@ t_philo	*new_philosopher(size_t philo_id, t_data *data)
 		return (NULL);
 	}
 	gettimeofday(new->last_meal, NULL);
+	if (pthread_mutex_init(&new->last_meal_mutex, NULL))
+	{
+		printf(MUTEX_FAIL);
+		return (NULL);
+	}
 	new->nbr_of_meals = 0;
 	new->philo_is_full = 0;
 	new->data = data;
