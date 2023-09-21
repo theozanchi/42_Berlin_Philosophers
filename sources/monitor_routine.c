@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   death_checker.c                                    :+:      :+:    :+:   */
+/*   monitor_routine.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 12:13:56 by tzanchi           #+#    #+#             */
-/*   Updated: 2023/09/21 19:55:45 by tzanchi          ###   ########.fr       */
+/*   Updated: 2023/09/21 20:43:20 by tzanchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-/*Compares the time since a philosopher's last meal beginning  and the current
+/*Compares the time since a philosopher's last meal beginning and the current
 time. If the difference is bigger than data->time_to_die, the philosopher is
 dead and the function returns 1*/
 int	philo_is_dead(t_philo *philo)
