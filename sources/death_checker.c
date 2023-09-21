@@ -6,7 +6,7 @@
 /*   By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 12:13:56 by tzanchi           #+#    #+#             */
-/*   Updated: 2023/09/20 18:05:18 by tzanchi          ###   ########.fr       */
+/*   Updated: 2023/09/21 12:20:59 by tzanchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,18 @@ int	philo_is_dead(t_philo *philo)
 	return (0);
 }
 
+int	all_full_philo(t_data *data)
+{
+	pthread_mutex_lock(&data->nbr_of_full_philo_mutex);
+	if (data->nbr_of_meals && data->nbr_of_full_philo == data->nbr_of_philo)
+	{
+		pthread_mutex_unlock(&data->nbr_of_full_philo_mutex);
+		return (1);
+	}
+	pthread_mutex_unlock(&data->nbr_of_full_philo_mutex);
+	return (0);
+}
+
 void	*monitor_routine(void *void_data)
 {
 	t_data	*data;
@@ -35,15 +47,17 @@ void	*monitor_routine(void *void_data)
 	philo = data->philo;
 	while (1)
 	{
-		if (data->nbr_of_meals && data->nbr_of_full_philo == data->nbr_of_philo)
+		if (all_full_philo(data))
 		{
-			// display_log(ALL_FULL_LOG, philo);
-			exit(display_log(ALL_FULL_LOG, philo));
+			display_log(ALL_FULL_LOG, philo);
+			detach_philo_threads(data);
+			break ;
 		}
 		if (philo_is_dead(philo))
 		{
-			// display_log(DEATH_LOG, philo);
-			exit(display_log(DEATH_LOG, philo));
+			display_log(DEATH_LOG, philo);
+			detach_philo_threads(data);
+			break ;
 		}
 		philo = philo->next;
 		usleep(100);

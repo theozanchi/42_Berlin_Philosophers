@@ -6,7 +6,7 @@
 /*   By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:11:52 by tzanchi           #+#    #+#             */
-/*   Updated: 2023/09/20 18:05:06 by tzanchi          ###   ########.fr       */
+/*   Updated: 2023/09/21 12:06:25 by tzanchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,17 +63,17 @@ int		ft_atoi(const char *nptr);
 int		ft_isspace(int c);
 int		ft_isdigit(int c);
 int		ft_isnumeric(char *str);
-int		display_log(char *log, t_philo *philo);
+int		ft_strcmp(const char *s1, const char *s2);
 
 /*death_checker.c*/
 int		philo_is_dead(t_philo *philo);
 void	*monitor_routine(void *void_philo);
 
-/*free.c*/
+/*end.c*/
 void	destroy_forks(t_data *data);
 void	free_philosopher(t_philo *philosopher);
 int		free_data(t_data *data, int exit_code);
-int		join_threads(t_data *data);
+int		detach_philo_threads(t_data *data);
 
 /*init.c*/
 t_philo	*new_philosopher(size_t philo_id, t_data *data);
@@ -83,6 +83,8 @@ int		init_data(t_data *data, char **argv);
 int		launch_threads(t_data *data);
 
 /*main.c*/
+int		check_arguments(int argc, char **argv);
+int		display_log(char *log, t_philo *philo);
 int		main(int argc, char **argv);
 
 /*routine.c*/

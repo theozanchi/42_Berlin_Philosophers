@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   end.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 17:45:38 by tzanchi           #+#    #+#             */
-/*   Updated: 2023/09/20 16:19:56 by tzanchi          ###   ########.fr       */
+/*   Updated: 2023/09/21 12:04:31 by tzanchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	destroy_forks(t_data *data)
 
 /*Loops through all the philosophers to join the thread created for each of
 them. If one joint fails, function returns EXIT_FAILURE*/
-int	join_threads(t_data *data)
+int	detach_philo_threads(t_data *data)
 {
 	t_philo	*ptr;
 	size_t	i;
@@ -35,9 +35,9 @@ int	join_threads(t_data *data)
 	ptr = data->philo;
 	while (i--)
 	{
-		if (pthread_join(ptr->routine, NULL) != 0)
+		if (pthread_detach(ptr->routine) != 0)
 		{
-			printf(THREAD_JOIN_FAIL, ptr->id);
+			printf(THREAD_DETACH_FAIL, ptr->id);
 			return (EXIT_FAILURE);
 		}
 		ptr = ptr->next;

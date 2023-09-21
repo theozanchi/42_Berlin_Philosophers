@@ -6,7 +6,7 @@
 /*   By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:13:50 by tzanchi           #+#    #+#             */
-/*   Updated: 2023/09/20 16:44:42 by tzanchi          ###   ########.fr       */
+/*   Updated: 2023/09/21 12:02:21 by tzanchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ number_of_times_each_philosopher_must_eat (optional)\n"
 # define MALLOC_FAIL "Memory allocation failure\n"
 # define THREAD_CREATION_FAIL "Failed to join thread for philosopher %zu\n"
 # define THREAD_JOIN_FAIL "Failed to join thread for philosopher %zu\n"
+# define THREAD_DETACH_FAIL "Failed to detach thread for philosopher %zu\n"
 # define MUTEX_FAIL "Mutex creation failure\n"
 
 /*logs*/

@@ -6,7 +6,7 @@
 #    By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/13 12:09:06 by tzanchi           #+#    #+#              #
-#    Updated: 2023/09/20 12:22:15 by tzanchi          ###   ########.fr        #
+#    Updated: 2023/09/21 12:00:57 by tzanchi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ TICK		=	✓
 
 SRC			=	_utils.c \
 				death_checker.c \
-				free.c \
+				end.c \
 				init.c \
 				main.c \
 				routine.c
