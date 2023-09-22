@@ -6,7 +6,7 @@
 /*   By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 12:13:56 by tzanchi           #+#    #+#             */
-/*   Updated: 2023/09/21 20:43:20 by tzanchi          ###   ########.fr       */
+/*   Updated: 2023/09/22 11:37:53 by tzanchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,9 @@ void	monitor_routine(t_data *data)
 	{
 		if (philo_is_dead(philo))
 		{
+			pthread_mutex_lock(&philo->data->end_of_simulation_mutex);
+			data->end_of_simulation = 1;
+			pthread_mutex_unlock(&philo->data->end_of_simulation_mutex);
 			display_log(DEATH_LOG, philo);
 			detach_philo_threads(data);
 			break ;
@@ -66,6 +69,9 @@ void	monitor_routine(t_data *data)
 		{
 			if (all_full_philo(data))
 			{
+				pthread_mutex_lock(&philo->data->end_of_simulation_mutex);
+				data->end_of_simulation = 1;
+				pthread_mutex_unlock(&philo->data->end_of_simulation_mutex);
 				display_log(ALL_FULL_LOG, philo);
 				detach_philo_threads(data);
 				break ;

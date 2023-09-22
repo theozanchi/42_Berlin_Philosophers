@@ -6,7 +6,7 @@
 /*   By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:11:52 by tzanchi           #+#    #+#             */
-/*   Updated: 2023/09/21 20:21:33 by tzanchi          ###   ########.fr       */
+/*   Updated: 2023/09/22 11:37:40 by tzanchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ typedef struct s_data
 	clock_t			time_to_eat;
 	clock_t			time_to_sleep;
 	size_t			nbr_of_meals;
+	int				end_of_simulation;
+	pthread_mutex_t	end_of_simulation_mutex;
 	size_t			nbr_of_full_philo;
 	pthread_mutex_t	nbr_of_full_philo_mutex;
 	t_philo			*philo;
@@ -56,7 +58,6 @@ typedef struct s_data
 	pthread_mutex_t	display_mutex;
 	struct timeval	*current_time;
 	struct timeval	*start_time;
-	pthread_t		monitor_routine;
 }	t_data;
 
 /*_utils.c*/

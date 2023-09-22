@@ -6,7 +6,7 @@
 /*   By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 15:01:18 by tzanchi           #+#    #+#             */
-/*   Updated: 2023/09/21 18:18:28 by tzanchi          ###   ########.fr       */
+/*   Updated: 2023/09/22 10:30:15 by tzanchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ int	init_data(t_data *data, char **argv)
 		data->nbr_of_meals = ft_atoi(argv[5]);
 	else
 		data->nbr_of_meals = 0;
+	data->end_of_simulation = 0;
 	data->nbr_of_full_philo = 0;
 	data->philo = new_philosopher(1, data);
 	if (!data->philo)
@@ -124,9 +125,9 @@ int	init_data(t_data *data, char **argv)
 		return (free_data(data, EXIT_FAILURE));
 	if (init_forks(data))
 		return (free_data(data, EXIT_FAILURE));
-	if (pthread_mutex_init(&data->nbr_of_full_philo_mutex, NULL))
-		return (free_data(data, EXIT_FAILURE));
-	if (pthread_mutex_init(&data->display_mutex, NULL))
+	if (pthread_mutex_init(&data->nbr_of_full_philo_mutex, NULL)
+		|| pthread_mutex_init(&data->display_mutex, NULL)
+		|| pthread_mutex_init(&data->end_of_simulation_mutex, NULL))
 		return (free_data(data, EXIT_FAILURE));
 	data->current_time = malloc(sizeof(struct timeval));
 	if (!data->current_time)

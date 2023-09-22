@@ -6,7 +6,7 @@
 /*   By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 12:38:49 by tzanchi           #+#    #+#             */
-/*   Updated: 2023/09/21 20:26:19 by tzanchi          ###   ########.fr       */
+/*   Updated: 2023/09/22 10:43:57 by tzanchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,19 @@ void	*routine(void *void_philo)
 	philo = (t_philo *)void_philo;
 	while (1)
 	{
-		is_eating(philo);
-		is_sleeping(philo);
-		is_thinking(philo);
+		pthread_mutex_lock(&philo->data->end_of_simulation_mutex);
+		if (philo->data->end_of_simulation)
+		{
+			pthread_mutex_unlock(&philo->data->end_of_simulation_mutex);
+			break ;
+		}
+		else
+		{
+			pthread_mutex_unlock(&philo->data->end_of_simulation_mutex);
+			is_eating(philo);
+			is_sleeping(philo);
+			is_thinking(philo);
+		}
 	}
 	return (NULL);
 }
