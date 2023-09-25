@@ -6,7 +6,7 @@
 /*   By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 12:13:56 by tzanchi           #+#    #+#             */
-/*   Updated: 2023/09/22 11:37:53 by tzanchi          ###   ########.fr       */
+/*   Updated: 2023/09/25 15:17:52 by tzanchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ void	monitor_routine(t_data *data)
 			data->end_of_simulation = 1;
 			pthread_mutex_unlock(&philo->data->end_of_simulation_mutex);
 			display_log(DEATH_LOG, philo);
-			detach_philo_threads(data);
 			break ;
 		}
 		if (data->nbr_of_meals)
@@ -73,7 +72,6 @@ void	monitor_routine(t_data *data)
 				data->end_of_simulation = 1;
 				pthread_mutex_unlock(&philo->data->end_of_simulation_mutex);
 				display_log(ALL_FULL_LOG, philo);
-				detach_philo_threads(data);
 				break ;
 			}
 		}

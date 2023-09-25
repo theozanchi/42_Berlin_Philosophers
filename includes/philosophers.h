@@ -6,7 +6,7 @@
 /*   By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:11:52 by tzanchi           #+#    #+#             */
-/*   Updated: 2023/09/22 11:37:40 by tzanchi          ###   ########.fr       */
+/*   Updated: 2023/09/25 15:05:48 by tzanchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	destroy_forks(t_data *data);
 void	free_philosopher(t_philo *philosopher);
 int		free_data(t_data *data, int exit_code);
 void	free_timestamps(t_data *data);
-int		detach_philo_threads(t_data *data);
+int		join_philo_threads(t_data *data);
 
 /*init.c*/
 t_philo	*new_philosopher(size_t philo_id, t_data *data);

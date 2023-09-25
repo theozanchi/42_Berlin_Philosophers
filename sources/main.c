@@ -6,7 +6,7 @@
 /*   By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:13:16 by tzanchi           #+#    #+#             */
-/*   Updated: 2023/09/22 11:37:29 by tzanchi          ###   ########.fr       */
+/*   Updated: 2023/09/25 16:05:46 by tzanchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,14 @@ int	check_arguments(int argc, char **argv)
 int	display_log(char *log, t_philo *philo)
 {
 	clock_t	time;
+	int		end_of_simulation_local;
 
+	pthread_mutex_lock(&philo->data->end_of_simulation_mutex);
+	end_of_simulation_local = philo->data->end_of_simulation;
+	pthread_mutex_unlock(&philo->data->end_of_simulation_mutex);
+	if (end_of_simulation_local && ft_strcmp(log, ALL_FULL_LOG)
+		&& ft_strcmp(log, DEATH_LOG))
+		return (0);
 	pthread_mutex_lock(&philo->data->display_mutex);
 	gettimeofday(philo->data->current_time, NULL);
 	time = (philo->data->current_time->tv_sec
@@ -46,8 +53,7 @@ int	display_log(char *log, t_philo *philo)
 		printf(log, time, philo->data->nbr_of_meals);
 	else
 		printf(log, time, philo->id);
-	if (ft_strcmp(log, ALL_FULL_LOG) && ft_strcmp(log, DEATH_LOG))
-		pthread_mutex_unlock(&philo->data->display_mutex);
+	pthread_mutex_unlock(&philo->data->display_mutex);
 	return (1);
 }
 
@@ -76,6 +82,6 @@ int	main(int argc, char **argv)
 	if (launch_threads(&data))
 		return (free_data(&data, EXIT_FAILURE));
 	monitor_routine(&data);
-	pthread_mutex_unlock(&data.display_mutex);
+	join_philo_threads(&data);
 	return (free_data(&data, EXIT_SUCCESS));
 }

@@ -6,7 +6,7 @@
 /*   By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 12:38:49 by tzanchi           #+#    #+#             */
-/*   Updated: 2023/09/22 10:43:57 by tzanchi          ###   ########.fr       */
+/*   Updated: 2023/09/25 16:05:38 by tzanchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,24 +69,22 @@ void	is_thinking(t_philo *philo)
 /*Each philosopher starts by eating, before sleeping and then thinking*/
 void	*routine(void *void_philo)
 {
-	t_philo			*philo;
+	t_philo	*philo;
+	t_data	*data;
+	int		end_of_simulation_local;
 
 	philo = (t_philo *)void_philo;
+	data = philo->data;
 	while (1)
 	{
-		pthread_mutex_lock(&philo->data->end_of_simulation_mutex);
-		if (philo->data->end_of_simulation)
-		{
-			pthread_mutex_unlock(&philo->data->end_of_simulation_mutex);
+		pthread_mutex_lock(&data->end_of_simulation_mutex);
+		end_of_simulation_local = data->end_of_simulation;
+		pthread_mutex_unlock(&data->end_of_simulation_mutex);
+		if (end_of_simulation_local)
 			break ;
-		}
-		else
-		{
-			pthread_mutex_unlock(&philo->data->end_of_simulation_mutex);
-			is_eating(philo);
-			is_sleeping(philo);
-			is_thinking(philo);
-		}
+		is_eating(philo);
+		is_sleeping(philo);
+		is_thinking(philo);
 	}
 	return (NULL);
 }
