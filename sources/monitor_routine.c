@@ -6,7 +6,7 @@
 /*   By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 12:13:56 by tzanchi           #+#    #+#             */
-/*   Updated: 2023/09/25 15:17:52 by tzanchi          ###   ########.fr       */
+/*   Updated: 2023/09/25 16:12:19 by tzanchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ to the number of philosophers in the simulation.
 Returns 1 if all philosophers are full, 0 if at least one of them is not*/
 int	all_full_philo(t_data *data)
 {
+	if (!data->nbr_of_meals)
+		return (0);
 	pthread_mutex_lock(&data->nbr_of_full_philo_mutex);
 	if (data->nbr_of_full_philo == data->nbr_of_philo)
 	{
@@ -56,24 +58,16 @@ void	monitor_routine(t_data *data)
 	philo = data->philo;
 	while (1)
 	{
-		if (philo_is_dead(philo))
+		if (philo_is_dead(philo) || all_full_philo(data))
 		{
 			pthread_mutex_lock(&philo->data->end_of_simulation_mutex);
 			data->end_of_simulation = 1;
 			pthread_mutex_unlock(&philo->data->end_of_simulation_mutex);
-			display_log(DEATH_LOG, philo);
-			break ;
-		}
-		if (data->nbr_of_meals)
-		{
 			if (all_full_philo(data))
-			{
-				pthread_mutex_lock(&philo->data->end_of_simulation_mutex);
-				data->end_of_simulation = 1;
-				pthread_mutex_unlock(&philo->data->end_of_simulation_mutex);
 				display_log(ALL_FULL_LOG, philo);
-				break ;
-			}
+			else
+				display_log(DEATH_LOG, philo);
+			break ;
 		}
 		philo = philo->next;
 		usleep(50);
