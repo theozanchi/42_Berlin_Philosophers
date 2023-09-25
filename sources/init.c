@@ -6,7 +6,7 @@
 /*   By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 15:01:18 by tzanchi           #+#    #+#             */
-/*   Updated: 2023/09/22 10:30:15 by tzanchi          ###   ########.fr       */
+/*   Updated: 2023/09/25 16:22:05 by tzanchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,7 @@ t_philo	*new_philosopher(size_t philo_id, t_data *data)
 
 	new = malloc(sizeof(t_philo));
 	if (!new)
-	{
-		printf(MALLOC_FAIL);
 		return (NULL);
-	}
 	new->id = philo_id;
 	new->left_fork_id = philo_id;
 	new->right_fork_id = philo_id + 1;
