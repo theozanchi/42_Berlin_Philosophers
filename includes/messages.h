@@ -6,7 +6,7 @@
 /*   By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:13:50 by tzanchi           #+#    #+#             */
-/*   Updated: 2023/09/21 12:02:21 by tzanchi          ###   ########.fr       */
+/*   Updated: 2023/09/25 16:55:34 by tzanchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ number_of_times_each_philosopher_must_eat (optional)\n"
 # define SLEEP_LOG "\033[1:37m%03lu\033[0m %d is sleeping\n"
 # define THINK_LOG "\033[1:37m%03lu\033[0m %d is thinking\n"
 # define DEATH_LOG "\033[1:37m%03lu\033[0m \033[1;31m%d died\033[0m\n"
-# define ALL_FULL_LOG "\033[1:37m%03lu\033[0m \033[1;32mAll philosophers had %d\
- meals\033[0m\n"
+# define ALL_FULL_LOG "\033[1:37m%03lu\033[0m \033[1;32mAll %d philosophers had\
+ %d meals\033[0m\n"
 
 #endif

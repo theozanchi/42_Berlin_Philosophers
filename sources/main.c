@@ -6,7 +6,7 @@
 /*   By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:13:16 by tzanchi           #+#    #+#             */
-/*   Updated: 2023/09/25 16:05:46 by tzanchi          ###   ########.fr       */
+/*   Updated: 2023/09/25 16:54:37 by tzanchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	display_log(char *log, t_philo *philo)
 		+ (philo->data->current_time->tv_usec
 			- philo->data->start_time->tv_usec) / 1000;
 	if (ft_strcmp(log, ALL_FULL_LOG) == 0)
-		printf(log, time, philo->data->nbr_of_meals);
+		printf(log, time, philo->data->nbr_of_philo, philo->data->nbr_of_meals);
 	else
 		printf(log, time, philo->id);
 	pthread_mutex_unlock(&philo->data->display_mutex);
