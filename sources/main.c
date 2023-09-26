@@ -6,7 +6,7 @@
 /*   By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:13:16 by tzanchi           #+#    #+#             */
-/*   Updated: 2023/09/25 16:54:37 by tzanchi          ###   ########.fr       */
+/*   Updated: 2023/09/26 15:00:55 by tzanchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,11 +74,11 @@ int	main(int argc, char **argv)
 		printf(MALLOC_FAIL);
 		return (EXIT_FAILURE);
 	}
-	gettimeofday(data.start_time, NULL);
 	if (check_arguments(argc, argv))
 		return (EXIT_FAILURE);
 	if (init_data(&data, argv))
 		return (free_data(&data, EXIT_FAILURE));
+	gettimeofday(data.start_time, NULL);
 	if (launch_threads(&data))
 		return (free_data(&data, EXIT_FAILURE));
 	monitor_routine(&data);
