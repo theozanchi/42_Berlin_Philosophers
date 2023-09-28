@@ -6,7 +6,7 @@
 /*   By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:11:52 by tzanchi           #+#    #+#             */
-/*   Updated: 2023/09/28 19:33:40 by tzanchi          ###   ########.fr       */
+/*   Updated: 2023/09/28 20:03:35 by tzanchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ int		ft_isnumeric(char *str);
 int		ft_strcmp(const char *s1, const char *s2);
 
 /*_utils_2.c*/
+int		ft_min(int a, int b);
+int		ft_max(int a, int b);
 clock_t	get_time(void);
 int		display_log(char *log, t_philo *philo);
 void	wait_for_start(t_data *data);
@@ -96,7 +98,7 @@ int		all_full_philo(t_data *data);
 void	monitor_routine(t_data *data);
 
 /*philo_routine.c*/
-void	takes_forks(t_philo *philo, int first_fork, int second_fork);
+void	takes_forks(t_philo *philo);
 void	is_eating(t_philo	*philo);
 void	is_sleeping(t_philo *philo);
 void	is_thinking(t_philo *philo);

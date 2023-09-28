@@ -6,13 +6,13 @@
 #    By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/13 12:09:06 by tzanchi           #+#    #+#              #
-#    Updated: 2023/09/28 19:26:31 by tzanchi          ###   ########.fr        #
+#    Updated: 2023/09/28 20:09:35 by tzanchi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 #Compiler targets and libraries
 CC			=	cc
-CFLAGS		=	-Wall -Wextra -Werror -g #-fsanitize=thread
+CFLAGS		=	-Wall -Wextra -Werror -g
 NAME		=	philo
 
 # Directories

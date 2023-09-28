@@ -6,11 +6,29 @@
 /*   By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 19:12:13 by tzanchi           #+#    #+#             */
-/*   Updated: 2023/09/28 19:32:20 by tzanchi          ###   ########.fr       */
+/*   Updated: 2023/09/28 20:03:24 by tzanchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
+
+/*Returns the min value of a and b*/
+int	ft_min(int a, int b)
+{
+	if (a < b)
+		return (a);
+	else
+		return (b);
+}
+
+/*Returns the max value of a and b*/
+int	ft_max(int a, int b)
+{
+	if (a >= b)
+		return (a);
+	else
+		return (b);
+}
 
 /*Returns the current time as a clock_t value type*/
 clock_t	get_time(void)
