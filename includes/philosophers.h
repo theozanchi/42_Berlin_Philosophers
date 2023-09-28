@@ -6,7 +6,7 @@
 /*   By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:11:52 by tzanchi           #+#    #+#             */
-/*   Updated: 2023/09/25 15:05:48 by tzanchi          ###   ########.fr       */
+/*   Updated: 2023/09/28 18:00:45 by tzanchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ typedef struct s_data
 	pthread_mutex_t	display_mutex;
 	struct timeval	*current_time;
 	struct timeval	*start_time;
+	int				start_flag;
+	pthread_mutex_t	start_flag_mutex;
 }	t_data;
 
 /*_utils.c*/

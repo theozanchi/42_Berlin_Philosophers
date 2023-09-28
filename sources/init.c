@@ -6,7 +6,7 @@
 /*   By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 15:01:18 by tzanchi           #+#    #+#             */
-/*   Updated: 2023/09/25 16:22:05 by tzanchi          ###   ########.fr       */
+/*   Updated: 2023/09/28 18:03:34 by tzanchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,9 @@ int	init_philosophers(t_data *data)
 	t_philo	*ptr;
 	size_t	philo_id;
 
+	data->philo = new_philosopher(1, data);
+	if (!data->philo)
+		return (EXIT_FAILURE);
 	ptr = data->philo;
 	philo_id = 2;
 	while (philo_id <= data->nbr_of_philo)
@@ -115,9 +118,6 @@ int	init_data(t_data *data, char **argv)
 		data->nbr_of_meals = 0;
 	data->end_of_simulation = 0;
 	data->nbr_of_full_philo = 0;
-	data->philo = new_philosopher(1, data);
-	if (!data->philo)
-		return (EXIT_FAILURE);
 	if (init_philosophers(data))
 		return (free_data(data, EXIT_FAILURE));
 	if (init_forks(data))
