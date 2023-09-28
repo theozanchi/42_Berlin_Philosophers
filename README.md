@@ -10,11 +10,11 @@ Mutex should be used to lock the forks for each philosopher to prevent them from
 Once a philosopher has eaten for `time_to_eat` milliseconds, he starts to sleep for `time_to_sleep` milliseconds and then starts to think. He thinks for as long as he canm but at least 2 milliseconds. 
 If a philsopher has not started eating since `time_to_die` milliseconds after the beginning of the simulation or the beginning of his last meal, he dies. 
 The program displays the logs of the simulation according to the following format:
-* timestamp_in_ms X has taken a fork
-* timestamp_in_ms X is eating
-* timestamp_in_ms X is sleeping
-* timestamp_in_ms X is thinking
-* timestamp_in_ms X died
+* `timestamp_in_ms` `X` has taken a fork
+* `timestamp_in_ms` `X` is eating
+* `timestamp_in_ms` `X` is sleeping
+* `timestamp_in_ms` `X` is thinking
+* `timestamp_in_ms` `X` died
 
 The full subject can be found [here](.media/en.subject.pdf).
 
