@@ -6,7 +6,7 @@
 /*   By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 15:01:18 by tzanchi           #+#    #+#             */
-/*   Updated: 2023/09/28 18:03:34 by tzanchi          ###   ########.fr       */
+/*   Updated: 2023/09/28 18:13:14 by tzanchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ t_philo	*new_philosopher(size_t philo_id, t_data *data)
 		printf(MALLOC_FAIL);
 		return (NULL);
 	}
-	gettimeofday(new->last_meal, NULL);
 	if (pthread_mutex_init(&new->last_meal_mutex, NULL))
 	{
 		printf(MUTEX_FAIL);
@@ -40,6 +39,7 @@ t_philo	*new_philosopher(size_t philo_id, t_data *data)
 	new->nbr_of_meals = 0;
 	new->philo_is_full = 0;
 	new->data = data;
+	gettimeofday(new->last_meal, NULL);
 	return (new);
 }
 
@@ -117,6 +117,7 @@ int	init_data(t_data *data, char **argv)
 	else
 		data->nbr_of_meals = 0;
 	data->end_of_simulation = 0;
+	data->start_of_simulation = 0;
 	data->nbr_of_full_philo = 0;
 	if (init_philosophers(data))
 		return (free_data(data, EXIT_FAILURE));
@@ -124,7 +125,8 @@ int	init_data(t_data *data, char **argv)
 		return (free_data(data, EXIT_FAILURE));
 	if (pthread_mutex_init(&data->nbr_of_full_philo_mutex, NULL)
 		|| pthread_mutex_init(&data->display_mutex, NULL)
-		|| pthread_mutex_init(&data->end_of_simulation_mutex, NULL))
+		|| pthread_mutex_init(&data->end_of_simulation_mutex, NULL)
+		|| pthread_mutex_init(&data->start_of_simulation_mutex, NULL))
 		return (free_data(data, EXIT_FAILURE));
 	data->current_time = malloc(sizeof(struct timeval));
 	if (!data->current_time)
@@ -150,5 +152,8 @@ int	launch_threads(t_data *data)
 		}
 		ptr = ptr->next;
 	}
+	pthread_mutex_lock(&data->start_of_simulation_mutex);
+	data->start_of_simulation = 1;
+	pthread_mutex_unlock(&data->start_of_simulation_mutex);
 	return (EXIT_SUCCESS);
 }

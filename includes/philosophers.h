@@ -6,7 +6,7 @@
 /*   By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:11:52 by tzanchi           #+#    #+#             */
-/*   Updated: 2023/09/28 18:00:45 by tzanchi          ###   ########.fr       */
+/*   Updated: 2023/09/28 18:08:11 by tzanchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ typedef struct s_data
 	pthread_mutex_t	display_mutex;
 	struct timeval	*current_time;
 	struct timeval	*start_time;
-	int				start_flag;
-	pthread_mutex_t	start_flag_mutex;
+	int				start_of_simulation;
+	pthread_mutex_t	start_of_simulation_mutex;
 }	t_data;
 
 /*_utils.c*/
@@ -87,6 +87,7 @@ int		launch_threads(t_data *data);
 int		check_arguments(int argc, char **argv);
 int		display_log(char *log, t_philo *philo);
 int		main(int argc, char **argv);
+void	wait_for_start(t_data *data);
 
 /*monitor_routine.c*/
 int		philo_is_dead(t_philo *philo);

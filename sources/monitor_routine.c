@@ -6,7 +6,7 @@
 /*   By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 12:13:56 by tzanchi           #+#    #+#             */
-/*   Updated: 2023/09/25 16:12:19 by tzanchi          ###   ########.fr       */
+/*   Updated: 2023/09/28 18:09:22 by tzanchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void	monitor_routine(t_data *data)
 {
 	t_philo	*philo;
 
+	wait_for_start(data);
 	philo = data->philo;
 	while (1)
 	{

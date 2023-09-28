@@ -6,7 +6,7 @@
 /*   By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:13:16 by tzanchi           #+#    #+#             */
-/*   Updated: 2023/09/26 15:00:55 by tzanchi          ###   ########.fr       */
+/*   Updated: 2023/09/28 18:08:01 by tzanchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,4 +84,17 @@ int	main(int argc, char **argv)
 	monitor_routine(&data);
 	join_philo_threads(&data);
 	return (free_data(&data, EXIT_SUCCESS));
+}
+
+void	wait_for_start(t_data *data)
+{
+	while (1)
+	{
+		pthread_mutex_lock(&data->start_of_simulation_mutex);
+		if (data->start_of_simulation)
+			break ;
+		pthread_mutex_unlock(&data->start_of_simulation_mutex);
+		usleep(50);
+	}
+	pthread_mutex_unlock(&data->start_of_simulation_mutex);
 }
