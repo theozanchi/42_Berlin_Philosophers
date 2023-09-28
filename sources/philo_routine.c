@@ -6,7 +6,7 @@
 /*   By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 12:38:49 by tzanchi           #+#    #+#             */
-/*   Updated: 2023/09/28 19:23:13 by tzanchi          ###   ########.fr       */
+/*   Updated: 2023/09/28 19:36:42 by tzanchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	is_sleeping(t_philo *philo)
 	usleep(philo->data->time_to_sleep * 1000);
 }
 
-/*Philosopher starts thinking for a minimal duration of 1 millisecond*/
+/*Philosopher starts thinking for a minimal duration of 2 millisecond*/
 void	is_thinking(t_philo *philo)
 {
 	display_log(THINK_LOG, philo);
