@@ -6,7 +6,7 @@
 /*   By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 15:01:18 by tzanchi           #+#    #+#             */
-/*   Updated: 2023/09/28 18:50:50 by tzanchi          ###   ########.fr       */
+/*   Updated: 2023/09/28 19:24:38 by tzanchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,13 @@ t_philo	*new_philosopher(size_t philo_id, t_data *data)
 
 	new = malloc(sizeof(t_philo));
 	if (!new)
-		return (NULL);
-	new->id = philo_id;
-	new->left_fork_id = philo_id;
-	new->right_fork_id = philo_id + 1;
-	new->last_meal = malloc(sizeof(struct timeval));
-	if (!new->last_meal)
 	{
 		printf(MALLOC_FAIL);
 		return (NULL);
 	}
+	new->id = philo_id;
+	new->left_fork_id = philo_id;
+	new->right_fork_id = philo_id + 1;
 	if (pthread_mutex_init(&new->last_meal_mutex, NULL))
 	{
 		printf(MUTEX_FAIL);
@@ -39,7 +36,7 @@ t_philo	*new_philosopher(size_t philo_id, t_data *data)
 	new->nbr_of_meals = 0;
 	new->philo_is_full = 0;
 	new->data = data;
-	gettimeofday(new->last_meal, NULL);
+	new->last_meal = get_time();
 	return (new);
 }
 
@@ -128,9 +125,6 @@ int	init_data(t_data *data, char **argv)
 		|| pthread_mutex_init(&data->end_of_simulation_mutex, NULL)
 		|| pthread_mutex_init(&data->start_of_simulation_mutex, NULL))
 		return (free_data(data, EXIT_FAILURE));
-	data->current_time = malloc(sizeof(struct timeval));
-	if (!data->current_time)
-		return (free_data(data, EXIT_FAILURE));
 	return (EXIT_SUCCESS);
 }
 
@@ -153,7 +147,7 @@ int	launch_threads(t_data *data)
 		ptr = ptr->next;
 	}
 	pthread_mutex_lock(&data->display_mutex);
-	gettimeofday(data->start_time, NULL);
+	data->start_time = get_time();
 	pthread_mutex_unlock(&data->display_mutex);
 	pthread_mutex_lock(&data->start_of_simulation_mutex);
 	data->start_of_simulation = 1;

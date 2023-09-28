@@ -6,7 +6,7 @@
 /*   By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 12:38:49 by tzanchi           #+#    #+#             */
-/*   Updated: 2023/09/28 18:50:20 by tzanchi          ###   ########.fr       */
+/*   Updated: 2023/09/28 19:23:13 by tzanchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	is_eating(t_philo	*philo)
 	if (philo->data->nbr_of_philo == 1)
 		return ;
 	pthread_mutex_lock(&philo->last_meal_mutex);
-	gettimeofday(philo->last_meal, NULL);
+	philo->last_meal = get_time();
 	display_log(EAT_LOG, philo);
 	pthread_mutex_unlock(&philo->last_meal_mutex);
 	usleep(philo->data->time_to_eat * 1000);

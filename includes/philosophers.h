@@ -6,7 +6,7 @@
 /*   By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:11:52 by tzanchi           #+#    #+#             */
-/*   Updated: 2023/09/28 18:30:23 by tzanchi          ###   ########.fr       */
+/*   Updated: 2023/09/28 19:33:40 by tzanchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ typedef struct s_philo
 	size_t			id;
 	int				left_fork_id;
 	int				right_fork_id;
-	struct timeval	*last_meal;
+	clock_t			last_meal;
 	pthread_mutex_t	last_meal_mutex;
 	size_t			nbr_of_meals;
 	int				philo_is_full;
@@ -56,24 +56,27 @@ typedef struct s_data
 	t_philo			*philo;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	display_mutex;
-	struct timeval	*current_time;
-	struct timeval	*start_time;
+	clock_t			start_time;
 	int				start_of_simulation;
 	pthread_mutex_t	start_of_simulation_mutex;
 }	t_data;
 
-/*_utils.c*/
+/*_utils_1.c*/
 int		ft_atoi(const char *nptr);
 int		ft_isspace(int c);
 int		ft_isdigit(int c);
 int		ft_isnumeric(char *str);
 int		ft_strcmp(const char *s1, const char *s2);
 
+/*_utils_2.c*/
+clock_t	get_time(void);
+int		display_log(char *log, t_philo *philo);
+void	wait_for_start(t_data *data);
+
 /*end.c*/
 void	destroy_forks(t_data *data);
 void	free_philosopher(t_philo *philosopher);
 int		free_data(t_data *data, int exit_code);
-void	free_timestamps(t_data *data);
 int		join_philo_threads(t_data *data);
 
 /*init.c*/
@@ -85,19 +88,18 @@ int		launch_threads(t_data *data);
 
 /*main.c*/
 int		check_arguments(int argc, char **argv);
-int		display_log(char *log, t_philo *philo);
 int		main(int argc, char **argv);
-void	wait_for_start(t_data *data);
 
 /*monitor_routine.c*/
 int		philo_is_dead(t_philo *philo);
+int		all_full_philo(t_data *data);
 void	monitor_routine(t_data *data);
 
 /*philo_routine.c*/
+void	takes_forks(t_philo *philo, int first_fork, int second_fork);
 void	is_eating(t_philo	*philo);
 void	is_sleeping(t_philo *philo);
 void	is_thinking(t_philo *philo);
 void	*routine(void *void_philo);
-void	*routine2(void *void_philo);
 
 #endif

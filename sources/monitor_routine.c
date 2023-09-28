@@ -6,7 +6,7 @@
 /*   By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 12:13:56 by tzanchi           #+#    #+#             */
-/*   Updated: 2023/09/28 18:09:22 by tzanchi          ###   ########.fr       */
+/*   Updated: 2023/09/28 19:22:18 by tzanchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,7 @@ int	philo_is_dead(t_philo *philo)
 	clock_t	time_since_last_meal;
 
 	pthread_mutex_lock(&philo->last_meal_mutex);
-	gettimeofday(philo->data->current_time, NULL);
-	time_since_last_meal = (philo->data->current_time->tv_sec
-			- philo->last_meal->tv_sec) * 1000
-		+ (philo->data->current_time->tv_usec - philo->last_meal->tv_usec)
-		/ 1000;
+	time_since_last_meal = get_time() - philo->last_meal;
 	pthread_mutex_unlock(&philo->last_meal_mutex);
 	if (time_since_last_meal > philo->data->time_to_die)
 		return (1);
