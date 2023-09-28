@@ -6,7 +6,7 @@
 /*   By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 15:01:18 by tzanchi           #+#    #+#             */
-/*   Updated: 2023/09/28 18:31:19 by tzanchi          ###   ########.fr       */
+/*   Updated: 2023/09/28 18:50:50 by tzanchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,21 +145,10 @@ int	launch_threads(t_data *data)
 	ptr = data->philo;
 	while (i--)
 	{
-		if (ptr->id % 2 != 0)
+		if (pthread_create(&ptr->routine, NULL, routine, (void *)ptr) != 0)
 		{
-			if (pthread_create(&ptr->routine, NULL, routine, (void *)ptr) != 0)
-			{
-				printf(THREAD_CREATION_FAIL, ptr->id);
-				return (EXIT_FAILURE);
-			}
-		}
-		else
-		{
-			if (pthread_create(&ptr->routine, NULL, routine2, (void *)ptr) != 0)
-			{
-				printf(THREAD_CREATION_FAIL, ptr->id);
-				return (EXIT_FAILURE);
-			}
+			printf(THREAD_CREATION_FAIL, ptr->id);
+			return (EXIT_FAILURE);
 		}
 		ptr = ptr->next;
 	}
