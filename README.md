@@ -15,6 +15,7 @@ The program displays the logs of the simulation according to the following forma
 * timestamp_in_ms X is sleeping
 * timestamp_in_ms X is thinking
 * timestamp_in_ms X died
+
 The full subject can be found [here](.media/en.subject.pdf).
 
 # Downloading and compiling the project
