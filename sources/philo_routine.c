@@ -6,7 +6,7 @@
 /*   By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 12:38:49 by tzanchi           #+#    #+#             */
-/*   Updated: 2023/09/28 18:13:08 by tzanchi          ###   ########.fr       */
+/*   Updated: 2023/09/28 18:41:05 by tzanchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@ The edge case of just one philosopher is taken into account to break the
 routine (return after taking the first fork)*/
 void	is_eating(t_philo	*philo)
 {
-	if (philo->id % 2 == 0)
-		takes_forks(philo, philo->left_fork_id, philo->right_fork_id);
-	else
-		takes_forks(philo, philo->right_fork_id, philo->left_fork_id);
+	// if (philo->id % 2 == 0)
+	takes_forks(philo, philo->left_fork_id, philo->right_fork_id);
+	// else
+	// 	takes_forks(philo, philo->right_fork_id, philo->left_fork_id);
 	if (philo->data->nbr_of_philo == 1)
 		return ;
 	pthread_mutex_lock(&philo->last_meal_mutex);
@@ -74,7 +74,7 @@ void	is_sleeping(t_philo *philo)
 void	is_thinking(t_philo *philo)
 {
 	display_log(THINK_LOG, philo);
-	usleep(1000);
+	usleep(2000);
 }
 
 /*Each philosopher starts by eating, before sleeping and then thinking
@@ -104,6 +104,37 @@ void	*routine(void *void_philo)
 			break ;
 		is_sleeping(philo);
 		is_thinking(philo);
+	}
+	return (NULL);
+}
+
+/*Each philosopher starts by eating, before sleeping and then thinking
+The edge case of just one philosopher is taken into account to break the
+routine (return after trying to eat)*/
+void	*routine2(void *void_philo)
+{
+	t_philo	*philo;
+	t_data	*data;
+	int		end_of_simulation_local;
+
+	philo = (t_philo *)void_philo;
+	data = philo->data;
+	wait_for_start(data);
+	// pthread_mutex_lock(&philo->last_meal_mutex);
+	// gettimeofday(philo->last_meal, NULL);
+	// pthread_mutex_lock(&philo->last_meal_mutex);
+	while (1)
+	{
+		is_thinking(philo);
+		pthread_mutex_lock(&data->end_of_simulation_mutex);
+		end_of_simulation_local = data->end_of_simulation;
+		pthread_mutex_unlock(&data->end_of_simulation_mutex);
+		if (end_of_simulation_local)
+			break ;
+		is_eating(philo);
+		if (data->nbr_of_philo == 1)
+			break ;
+		is_sleeping(philo);
 	}
 	return (NULL);
 }

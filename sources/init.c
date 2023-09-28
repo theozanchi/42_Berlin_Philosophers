@@ -6,7 +6,7 @@
 /*   By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 15:01:18 by tzanchi           #+#    #+#             */
-/*   Updated: 2023/09/28 18:13:14 by tzanchi          ###   ########.fr       */
+/*   Updated: 2023/09/28 18:31:19 by tzanchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,13 +145,27 @@ int	launch_threads(t_data *data)
 	ptr = data->philo;
 	while (i--)
 	{
-		if (pthread_create(&ptr->routine, NULL, routine, (void *)ptr) != 0)
+		if (ptr->id % 2 != 0)
 		{
-			printf(THREAD_CREATION_FAIL, ptr->id);
-			return (EXIT_FAILURE);
+			if (pthread_create(&ptr->routine, NULL, routine, (void *)ptr) != 0)
+			{
+				printf(THREAD_CREATION_FAIL, ptr->id);
+				return (EXIT_FAILURE);
+			}
+		}
+		else
+		{
+			if (pthread_create(&ptr->routine, NULL, routine2, (void *)ptr) != 0)
+			{
+				printf(THREAD_CREATION_FAIL, ptr->id);
+				return (EXIT_FAILURE);
+			}
 		}
 		ptr = ptr->next;
 	}
+	pthread_mutex_lock(&data->display_mutex);
+	gettimeofday(data->start_time, NULL);
+	pthread_mutex_unlock(&data->display_mutex);
 	pthread_mutex_lock(&data->start_of_simulation_mutex);
 	data->start_of_simulation = 1;
 	pthread_mutex_unlock(&data->start_of_simulation_mutex);

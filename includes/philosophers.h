@@ -6,7 +6,7 @@
 /*   By: tzanchi <tzanchi@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 16:11:52 by tzanchi           #+#    #+#             */
-/*   Updated: 2023/09/28 18:08:11 by tzanchi          ###   ########.fr       */
+/*   Updated: 2023/09/28 18:30:23 by tzanchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,5 +98,6 @@ void	is_eating(t_philo	*philo);
 void	is_sleeping(t_philo *philo);
 void	is_thinking(t_philo *philo);
 void	*routine(void *void_philo);
+void	*routine2(void *void_philo);
 
 #endif
